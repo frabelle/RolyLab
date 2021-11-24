@@ -4,7 +4,7 @@ import styles from '../tools/Styles';
 
 const RegistrarExamen = () =>{
     return(
-        <Container component="main" maxWidth="md" justify = "center">
+        <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
 
                 <Grid container spacing={2}>
