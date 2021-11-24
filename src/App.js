@@ -6,7 +6,7 @@ import RegistrarExamen from './components/exams/Registrar';
 function App() {
   return (
     <MuithemeProvider theme={theme}>
-      <h1 style={{textAlign:"center"}}>🌊 que tal?</h1>
+      <h1 style={{textAlign:"center"}}>Bienvenidos a ROLY</h1>
       <RegistrarExamen />
     </MuithemeProvider>
   );
