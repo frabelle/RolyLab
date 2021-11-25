@@ -114,7 +114,7 @@ const RegistrarExamen = () =>{
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                            <Button type="submit" fullWidth variant="contained" color="secondary" size="large" style={styles.submit}>
+                            <Button type="submit" fullWidth variant="contained" color="warning" size="large" style={styles.submit}>
                                 Cancelar
                             </Button>
                         </Grid>
