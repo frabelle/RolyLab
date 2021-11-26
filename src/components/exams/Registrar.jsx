@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
+import { Button, Container, Grid, TextField, MenuItem} from '@mui/material';
 import React from 'react';
 import styles from '../tools/Styles';
 import {
@@ -122,7 +122,7 @@ const RegistrarExamen = () =>{
                                 </Grid>
 
                                 <Grid item xs={12} md={12}>
-                                    <TextField name="descripcion" variant="outlined" fullWidth label="Descripción" />
+                                    <TextField name="descripcion" variant="contained" fullWidth label="Descripción" />
                                 </Grid>
 
                             </Grid>
