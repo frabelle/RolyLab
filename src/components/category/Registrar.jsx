@@ -55,9 +55,6 @@ const RegistrarCategoria = () =>{
            
             </div>
         </Container>
-
-      
-
     )
 }
 

@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
-import React from 'react';
+import React, { Component } from 'react';
 import styles from '../tools/Styles';
+import axios from 'axios';
 import {
     Box,
     Card,
@@ -8,14 +9,42 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
+import { obtenerExamen } from '../../actions/ExamenAction';
 
-const AsignarExamen = () =>{
+class AsignarExamen extends Component {
+
+    state = {
+        exams: [],
+        perfil: []
+      }
+    
+      componentDidMount(){
+        this.consultarExamenes();  
+      }
+    
+      consultarExamenes = async () =>{
+        const url = `https://localhost:44342/api/Examen`;
+        const url2 = `https://localhost:44342/api/Perfil`;
+    
+        const respuesta = await fetch(url);
+        const respuesta2 = await fetch(url2);
+        const exams = await respuesta.json();
+        const perfil = await respuesta2.json();
+    
+        console.log(exams);
+        
+        this.setState({
+          exams: exams,
+          perfil: perfil,
+        });
+      }
+
+      render(){
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
 
                 <Card>
-
                     <CardHeader
                     subheader="Asignando un examen a un perfil"
                     title="Asignación de examen"
@@ -37,10 +66,17 @@ const AsignarExamen = () =>{
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
-
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        
+                                        <option value="0">Seleccione...</option>
+                                        
+                                        {this.state.exams.map((exam) => (
+                                            <option
+                                                key={exam.idExamen}
+                                                value={exam.idExamen}
+                                            >
+                                                {exam.descripcionCorta}
+                                            </option>
+                                        ))}
                                         
                                     </TextField>
                                 </Grid>
@@ -56,9 +92,16 @@ const AsignarExamen = () =>{
                                         variant="outlined"
                                         >
 
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <option value="0">Seleccione...</option>
+                                        
+                                        {this.state.perfil.map((perfils) => (
+                                            <option
+                                                key={perfils.idPerfiles}
+                                                value={perfils.idPerfiles}
+                                            >
+                                                {perfils.descripcion}
+                                            </option>
+                                        ))}
                                         
                                     </TextField>
                                 </Grid>
@@ -91,6 +134,7 @@ const AsignarExamen = () =>{
       
 
     )
+                }
 }
 
 export default AsignarExamen;

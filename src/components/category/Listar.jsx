@@ -40,7 +40,7 @@ const rows = [
   createData('Este es el nombre de examen 5', 'Área de laboratorio 5', 'Categoría 5', 'Tipo 5', 'Unidad 5', 'Resultado 5'),
 ];
 
-class ListarExamen extends Component {
+class ListarCategoria extends Component {
 
   state = {
     exams: []
@@ -48,12 +48,11 @@ class ListarExamen extends Component {
   }
 
   componentDidMount(){
-    this.consultarExamenes();  
+    this.consultarCategoria();  
   }
 
-  consultarExamenes = async () =>{
-    const url = `https://localhost:44342/api/Examen`;
-    const url2 = `https://localhost:44342/api/Examen`;
+  consultarCategoria= async () =>{
+    const url = `https://localhost:44342/api/CategoriaExamenes`;
 
     const respuesta = await fetch(url);
     const exams = await respuesta.json();
@@ -84,21 +83,21 @@ class ListarExamen extends Component {
                       <Table sx={{ minWidth: 400 }} aria-label="customized table">
                         <TableHead>
                           <TableRow>
-                            <StyledTableCell >Nombre del examen</StyledTableCell>
-                            <StyledTableCell>Descripción corta</StyledTableCell>
-                            <StyledTableCell>Confidencial</StyledTableCell>
-                            <StyledTableCell  align="center">Estado</StyledTableCell>
+                          <StyledTableCell >ID</StyledTableCell>
+                            <StyledTableCell >Nombre de la categoría</StyledTableCell>
+                            <StyledTableCell align="center">Estado</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                           {this.state.exams.map((exam) => (
-                            <TableRow key={exam.idExamen}>
+                            <TableRow key={exam.idCategoriaExamenes}>
                               <TableCell component="th" scope="row">
-                                {exam.descripcionCorta}
+                                {exam.idCategoriaExamenes}
                               </TableCell>
-                              <TableCell>{exam.descripcion}</TableCell>
-                              <TableCell>{exam.confidencial}</TableCell>
-                              <TableCell  align="center">{exam.estado}</TableCell>
+                              <TableCell component="th" scope="row">
+                                {exam.descripcion}
+                              </TableCell>
+                              <TableCell align="center">{exam.estado}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -116,4 +115,4 @@ class ListarExamen extends Component {
   }
 }
 
-export default ListarExamen;
+export default ListarCategoria;

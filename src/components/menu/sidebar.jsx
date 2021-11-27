@@ -13,7 +13,6 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import ChurchIcon from '@mui/icons-material/Church';
 import LogoutIcon from '@mui/icons-material/Logout';
-import RegistrarExamen from '../components/exams/Registrar'
 
 const Sidebar = () =>{
   return(

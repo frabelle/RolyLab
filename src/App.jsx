@@ -4,18 +4,26 @@ import theme from './components/tools/Theme';
 import RegistrarExamen from './components/exams/Registrar';
 import AsignarExamen from './components/exams/Asignar';
 import RegistrarPerfil from './components/profiles/Registrar'
+import ListarPerfil from './components/profiles/Listar'
 import RegistrarCategoria from './components/category/Registrar'
 import ListarExamen from './components/exams/Lista'
-import Form from './pages/sidebar'
+import ListarCategoria from './components/category/Listar'
+import Form from './components/menu/sidebar'
+import Test from './pages/text'
 
 function App() {
   return (
     <MuithemeProvider theme={theme}>
       <Form/>
-      <RegistrarPerfil/>
+      <RegistrarExamen/>
       <AsignarExamen/>
-      <RegistrarCategoria/>
       <ListarExamen/>
+
+      <RegistrarPerfil/>
+      <ListarPerfil/>
+      
+      <RegistrarCategoria/>
+      <ListarCategoria/>
     </MuithemeProvider>
   );
 }

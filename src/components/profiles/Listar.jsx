@@ -43,25 +43,22 @@ const rows = [
 class ListarExamen extends Component {
 
   state = {
-    exams: []
+    profiles: []
 
   }
 
   componentDidMount(){
-    this.consultarExamenes();  
+    this.consultarPerfiles();  
   }
 
-  consultarExamenes = async () =>{
-    const url = `https://localhost:44342/api/Examen`;
-    const url2 = `https://localhost:44342/api/Examen`;
+  consultarPerfiles = async () =>{
+    const url = `https://localhost:44342/api/Perfil`;
 
     const respuesta = await fetch(url);
-    const exams = await respuesta.json();
-
-    console.log(exams);
+    const profiles = await respuesta.json();
     
     this.setState({
-      exams: exams
+      profiles: profiles
     });
   }
   render(){  
@@ -73,8 +70,8 @@ class ListarExamen extends Component {
                 <Card>
 
                     <CardHeader
-                    subheader="Registro de todos los exámenes en el sistema"
-                    title="Lista de exámenes"
+                    subheader="Registro de todos los perfiles en el sistema"
+                    title="Lista de perfiles"
                     />
 
                     <Divider />
@@ -84,21 +81,19 @@ class ListarExamen extends Component {
                       <Table sx={{ minWidth: 400 }} aria-label="customized table">
                         <TableHead>
                           <TableRow>
-                            <StyledTableCell >Nombre del examen</StyledTableCell>
-                            <StyledTableCell>Descripción corta</StyledTableCell>
-                            <StyledTableCell>Confidencial</StyledTableCell>
-                            <StyledTableCell  align="center">Estado</StyledTableCell>
+                            <StyledTableCell >ID</StyledTableCell>
+                            <StyledTableCell >Nombre del perfil</StyledTableCell>
+                            <StyledTableCell align="center">Estado</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                          {this.state.exams.map((exam) => (
-                            <TableRow key={exam.idExamen}>
+                          {this.state.profiles.map((exam) => (
+                            <TableRow key={exam.idPerfiles}>
                               <TableCell component="th" scope="row">
-                                {exam.descripcionCorta}
+                                {exam.idPerfiles}
                               </TableCell>
                               <TableCell>{exam.descripcion}</TableCell>
-                              <TableCell>{exam.confidencial}</TableCell>
-                              <TableCell  align="center">{exam.estado}</TableCell>
+                              <TableCell align="center">{exam.estado}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
