@@ -16,62 +16,69 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const Sidebar = () =>{
   return(
+    <div className="Sidebar">
         <ProSidebar>
-        <SidebarHeader>
-            
-            <Grid container spacing={1} textAlign="center" marginTop="5px">
+            <SidebarHeader>            
+                <Grid container spacing={1} textAlign="center" marginTop="5px">
 
-                <Grid item xs={12} md={12}>
-                    <BiotechIcon fontSize="large"/>
-                    <Typography variant="h6" component="h6">RolyLab</Typography>
+                    <Grid item xs={12} md={12}>
+                        <BiotechIcon fontSize="large"/>
+                        <Typography variant="h6" component="h6">RolyLab</Typography>
+                    </Grid>
+
                 </Grid>
+                <Menu iconShape="">
+                    <MenuItem icon={<HomeIcon />}>Página de inicio</MenuItem>
+                </Menu>
 
-            </Grid>
-            <Menu iconShape="">
-                <MenuItem icon={<HomeIcon />}>Página de inicio</MenuItem>
-            </Menu>
+            </SidebarHeader>
+            <SidebarContent>
+                <Menu>
+                    
+                    <Typography variant="h7" component="h5" marginLeft="30px" marginTop="10px" marginBottom="10px">Gestión de datos</Typography>
 
-        </SidebarHeader>
-        <SidebarContent>
-            <Menu>
-                
-                <Typography variant="h7" component="h5" marginLeft="30px" marginTop="10px" marginBottom="10px">Gestión de datos</Typography>
+                    <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes<Link to="/" /></MenuItem>
+                    <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores</MenuItem>
 
-                <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes</MenuItem>
-                <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores</MenuItem>
+                    <SubMenu title="Procedencia" icon={<PublicIcon />}>
+                        <MenuItem>Nacionalidad</MenuItem>
+                        <MenuItem>Departamento</MenuItem>
+                        <MenuItem>País</MenuItem>
+                    </SubMenu>
 
-                <SubMenu title="Procedencia" icon={<PublicIcon />}>
-                    <MenuItem>Nacionalidad</MenuItem>
-                    <MenuItem>Departamento</MenuItem>
-                    <MenuItem>País</MenuItem>
-                </SubMenu>
+                    <MenuItem icon={<ChurchIcon />}>Religión</MenuItem>
+                    <MenuItem icon={<FolderSharedIcon />}>Profesiones</MenuItem>
+                    
 
-                <MenuItem icon={<ChurchIcon />}>Religión</MenuItem>
-                <MenuItem icon={<FolderSharedIcon />}>Profesiones</MenuItem>
-                
+                    <Typography variant="h7" component="h5" marginLeft="30px" marginTop="20px" marginBottom="10px">Gestión de examen</Typography>
+                    
+                    <SubMenu title="Exámenes" icon={<SummarizeIcon />}>
+                        <MenuItem>
+                            Gestión de examen <Link to="../exams/Registrar" />
+                        </MenuItem>
+                        <MenuItem>Asignación a perfil <Link to="../exams/Asignar" /></MenuItem>
+                        <MenuItem>Valores normales <Link to="../exams/Lista" /></MenuItem>
+                    </SubMenu>
+                    
+                    <SubMenu title="Perfiles" icon={<MenuBookIcon/>}>
+                        <MenuItem>Gestión de Perfiles<Link to="../profiles/Registrar" /></MenuItem>
+                        <MenuItem>Lista de Perfiles<Link to="../profiles/Listar" /></MenuItem>
+                    </SubMenu>
 
-                <Typography variant="h7" component="h5" marginLeft="30px" marginTop="20px" marginBottom="10px">Gestión de examen</Typography>
-                
-                <SubMenu title="Exámenes" icon={<SummarizeIcon />}>
-                    <MenuItem>
-                        Gestión de examen
-                    </MenuItem>
-                    <MenuItem>Asignación a perfil</MenuItem>
-                    <MenuItem>Valores normales</MenuItem>
-                </SubMenu>
-                
-                <MenuItem icon={<MenuBookIcon />}>Perfiles</MenuItem>
-                <MenuItem icon={<PostAddIcon />}>Categorías</MenuItem>
+                    <SubMenu title="Categorías" icon={<PostAddIcon />}>
+                        <MenuItem>Gestion de Categorías<Link to="../category/Registrar" /></MenuItem>
+                        <MenuItem>Lista de Categorías<Link to="../category/Listar" /></MenuItem>
+                    </SubMenu>
 
-            </Menu>
-        </SidebarContent>
-        <SidebarFooter>
-            <Menu>
-                <MenuItem icon={<LogoutIcon />}>Cerrar sesión</MenuItem>
-            </Menu>
-        </SidebarFooter>
-    </ProSidebar>
-    
+                </Menu>
+            </SidebarContent>
+            <SidebarFooter>
+                <Menu>
+                    <MenuItem icon={<LogoutIcon />}>Cerrar sesión</MenuItem>
+                </Menu>
+            </SidebarFooter>
+        </ProSidebar>
+    </div>
     )
   }
 
