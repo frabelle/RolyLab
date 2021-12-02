@@ -6,11 +6,7 @@ const style = {
         alignItem: "center"
     },
     form: {
-        width: "100%",
-        marginTop: 20
-    },
-    submit: {
-        marginTop: 15
+        width: "100%"
     },
     avatar: {
         margin: 5,

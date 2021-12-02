@@ -1,15 +1,12 @@
 import MuithemeProvider from '@mui/material/styles/ThemeProvider';
 import React from 'react';
 import theme from './components/tools/Theme';
-import RegistrarExamen from './components/exams/Registrar';
-import ListarExamen from './components/exams/Lista'
+import Sidebar from './pages/menu'
 
 function App() {
   return (
     <MuithemeProvider theme={theme}>
-      <h1 style={{textAlign:"center"}}>Bienvenidos a ROLY</h1>
-      <RegistrarExamen />
-      <ListarExamen/>
+      <Sidebar/>
     </MuithemeProvider>
   );
 }
