@@ -14,6 +14,7 @@ import { obtenerCategoriaExamenes } from '../../actions/CategoriaAction';
 import { obtenerTipoMuestra } from '../../actions/TipoMuestra';
 import { obtenerUnidadMedidas } from '../../actions/UnidadMedidas';
 import { obtenerTipoResultado } from '../../actions/TipoResultado';
+import { registrarExamen} from '../../actions/ExamenAction'
 
   const RegistrarExamen = () =>{
 
@@ -22,12 +23,31 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
         categoria: [],
         tipoMuestra: [],
         unidadMedidas: [],
-        tipoResultado: []
+        tipoResultado: [],
+        examen: []
     })
 
     useEffect(() => {
         consultarExamenes();   
     }, []);
+
+    const ingresarValores = e =>{
+        const {name, value} = e.target;
+        setData( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+    }
+
+    const registrarExamenButton= e => {
+        e.preventDefault();
+        registrarExamen(data).then(response => {
+            console.log('Se registró la profesión con éxito ', response);
+            window.localStorage.setItem("token_seguridad", response.data.token);
+        })
+
+        console.log("Datos del usuario: ", data)
+    }
     
     const consultarExamenes = () =>{
     
@@ -80,22 +100,45 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                     />
 
                     <Divider />
+                    <form style={styles.form}>
 
                     <CardContent>
-                        <form style={styles.form}>
+                        
                         <Grid container spacing={3}>
 
-                            <Grid item xs={12} md={6}>
-                                <TextField name="nombre" variant="outlined" fullWidth label="Nombre del examen" />
+                            <Grid item xs={12} md={9}>
+                                <TextField name="descripcionCorta" variant="outlined" value={data.examen.descripcionCorta} onChange={ingresarValores} fullWidth label="Nombre del examen" />
+                            </Grid>
+
+                            <Grid item xs={12} md={3}>
+                                <TextField
+                                    fullWidth
+                                    label="Confidencial"
+                                    name="confidencial"
+                                    required
+                                    select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.confidencial}
+                                    SelectProps={{ native: true }}
+                                    variant="outlined"
+                                    >
+
+                                    <option value="0">Seleccione...</option>
+                                    <option value="Si">Si Confidencial</option>
+                                    <option value="No">No Confidencial</option>
+
+                                </TextField>
                             </Grid>
 
                             <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     label="Área de servicio"
-                                    name="state"
+                                    name="idAreaServ"
                                     required
                                     select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.idAreaServ}
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
@@ -114,13 +157,15 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     label="Categoría"
-                                    name="state"
+                                    name="idCategoriaExamenes"
                                     required
                                     select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.idCategoriaExamenes}
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
@@ -139,13 +184,15 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={4}>
                                 <TextField
                                     fullWidth
                                     label="Tipo de muestra"
-                                    name="state"
+                                    name="idTipoMuestra"
                                     required
                                     select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.idTipoMuestra}
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
@@ -162,13 +209,15 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={4}>
                                 <TextField
                                     fullWidth
                                     label="Unidad de medida"
-                                    name="state"
+                                    name="idUnidadMedidas"
                                     required
                                     select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.idUnidadMedidas}
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
@@ -187,13 +236,15 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={4}>
                                 <TextField
                                     fullWidth
                                     label="Tipo de resultado"
-                                    name="state"
+                                    name="idTipoResultado"
                                     required
                                     select
+                                    onChange={ingresarValores}
+                                    value = {data.examen.idTipoResultado}
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
@@ -213,11 +264,11 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                             </Grid>
 
                             <Grid item xs={12} md={12}>
-                                <TextField name="nombre" variant="outlined" fullWidth label="Descripción" />
+                                <TextField name="descripcion" value={data.examen.descripcion} onChange={ingresarValores} variant="outlined" fullWidth label="Descripción" />
                             </Grid>
                         
                         </Grid>
-                        </form>
+                        
                     </CardContent>
 
                     <Divider />
@@ -230,12 +281,14 @@ import { obtenerTipoResultado } from '../../actions/TipoResultado';
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" fullWidth variant="contained" color="primary">
+                            <Button type="submit" onClick={registrarExamenButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
 
                     </Box>
+
+                    </form>
                 </Card>
            
             </div>

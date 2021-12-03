@@ -1,5 +1,6 @@
 import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
 import React from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import {
     Box,
@@ -8,8 +9,47 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
-
+import { obtenerPais } from '../../actions/PaisAction';
+import { registrarDepartamento } from '../../actions/DepartamentoAction';
 const RegistrarDepartamento = () =>{
+
+    const [data, setData] = useState({
+        pais: [],
+        departamento: []
+    })
+
+    useEffect(() => {
+        consultarExamenes();   
+    }, []);
+    
+    const consultarExamenes = () =>{
+
+        obtenerPais().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                pais: response.data
+            }));
+        }) 
+    }
+
+    const ingresarValores = e =>{
+        const {name, value} = e.target;
+        setData( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+    }
+
+    const registrarDepartamentoButton= e => {
+        e.preventDefault();
+        registrarDepartamento(data).then(response => {
+            console.log('Se registró la profesión con éxito ', response);
+            window.localStorage.setItem("token_seguridad", response.data.token);
+        })
+
+        console.log("Datos del usuario: ", data)
+    }
+
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
@@ -22,36 +62,47 @@ const RegistrarDepartamento = () =>{
                     />
 
                     <Divider />
+                    
+                    <form style={styles.form}>
 
                     <CardContent>
-                        <form style={styles.form}>
+                        
                             <Grid container spacing={3}>
                               
                             <Grid item xs={12} md={6}>
                                     <TextField
                                         fullWidth
                                         label="País"
-                                        name="state"
+                                        name="idPais"
                                         required
                                         select
+                                        onChange={ingresarValores}
+                                        value = {data.pais.idPais}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
 
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <option value="0">Seleccione...</option>
+                                        {data.pais.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idPais}
+                                                    value={id.idPais}>
+                                                    {id.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                         
                                     </TextField>
                                 </Grid>
 
 
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="nombre" variant="outlined" fullWidth label="Nombre del departamento" />
+                                    <TextField name="descripcion" value={data.departamento.descripcion} onChange={ingresarValores} variant="outlined" fullWidth label="Nombre del departamento" />
                                 </Grid>
 
                             </Grid>
-                        </form>
+                        
                     </CardContent>
 
                     <Divider />
@@ -64,12 +115,14 @@ const RegistrarDepartamento = () =>{
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" fullWidth variant="contained" color="primary">
+                            <Button type="submit"  onClick={registrarDepartamentoButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
 
                     </Box>
+
+                    </form>
                 </Card>
            
             </div>

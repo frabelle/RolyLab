@@ -17,6 +17,7 @@ import { obtenerReligion } from '../../actions/ReligionAction';
 import { obtenerNacionalidad } from '../../actions/NacionalidadAction';
 import { obtenerDepartamento } from '../../actions/DepartamentoAction';
 import { obtenerPais } from '../../actions/PaisAction';
+import { registrarPaciente } from '../../actions/PacienteAction';
 
 const RegistrarPaciente = () =>{
 
@@ -28,12 +29,31 @@ const RegistrarPaciente = () =>{
         religion: [],
         nacionalidad: [],
         departamento: [],
-        pais: []
+        pais: [],
+        paciente: []
     })
 
     useEffect(() => {
         consultarExamenes();   
     }, []);
+
+    const ingresarValores = e =>{
+        const {name, value} = e.target;
+        setData( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+    }
+
+    const registrarPacienteButton= e => {
+        e.preventDefault();
+        registrarPaciente(data).then(response => {
+            console.log('Se registró la profesión con éxito ', response);
+            window.localStorage.setItem("token_seguridad", response.data.token);
+        })
+        
+        console.log("Datos del usuario: ", data)
+    }
     
     const consultarExamenes = () =>{
     
@@ -107,18 +127,20 @@ const RegistrarPaciente = () =>{
                     />
 
                     <Divider />
-
+                    <form style={styles.form}>
                     <CardContent>
-                        <form style={styles.form}>
+                        
                             <Grid container spacing={3}>
                                 
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         fullWidth
                                         label="Identificación"
-                                        name="state"
+                                        name="idIdentificacion"
                                         required
                                         select
+                                        value={data.paciente.idIdentificacion} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -137,31 +159,38 @@ const RegistrarPaciente = () =>{
                                     </TextField>
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="numidentif" variant="outlined" fullWidth label="Número de identificación" />
+                                    <TextField name="numIdentificacion" value={data.paciente.numIdentificacion} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Número de identificación" />
                                 </Grid>
                                 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="nombre1" variant="outlined" fullWidth label="Primer nombre" />
+                                    <TextField name="primerNombre" value={data.paciente.primerNombre} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Primer nombre" />
                                 </Grid>
 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="nombre2" variant="outlined" fullWidth label="Segundo nombre" />
+                                    <TextField name="segundoNombre" value={data.paciente.segundoNombre} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Segundo nombre" />
                                 </Grid>
 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="apellido1" variant="outlined" fullWidth label="Primer apellido" />
+                                    <TextField name="primerApellido" value={data.paciente.primerApellido} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Primer apellido" />
                                 </Grid>
 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="apellido2" variant="outlined" fullWidth label="Segundo apellido" />
+                                    <TextField name="segundoApellido" value={data.paciente.segundoApellido} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Segundo apellido" />
                                 </Grid>
 
                                 <Grid item xs={12} md={6}>
                               <TextField
-                                   id="date"
-                                   label="Fecha de nacimiento"
-                                   type="date"
+                                  name="fechaNac"
+                                  label="Fecha de nacimiento"
+                                  type="date"
                                   defaultValue=""
+                                  value={data.paciente.fechaNac} 
+                                  onChange={ingresarValores}
                                   sx={{ width: 450 }}
                                   InputLabelProps={{
                                   shrink: true,
@@ -170,19 +199,23 @@ const RegistrarPaciente = () =>{
                                 </Grid>
                                  
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="numInss" variant="outlined" fullWidth label="Número de INSS" />
+                                    <TextField name="numInss" value={data.paciente.numInss} 
+                                  onChange={ingresarValores} variant="outlined" fullWidth label="Número de INSS" />
                                 </Grid>
                                  
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="email" variant="outlined" fullWidth label="Email" />
+                                    <TextField name="email" value={data.paciente.email} 
+                                  onChange={ingresarValores} variant="outlined" fullWidth label="Email" />
                                 </Grid>
 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="telef" variant="outlined" fullWidth label="Teléfono domiciliar" />
+                                    <TextField name="telefonoDomiciliar" value={data.paciente.telefonoDomiciliar} 
+                                  onChange={ingresarValores} variant="outlined" fullWidth label="Teléfono domiciliar" />
                                 </Grid>
 
                                 <Grid item xs={12} md={3}>
-                                    <TextField name="telefm" variant="outlined" fullWidth label="Teléfono móvil" />
+                                    <TextField name="telefonoMovil" value={data.paciente.telefonoMovil} 
+                                  onChange={ingresarValores} variant="outlined" fullWidth label="Teléfono móvil" />
                                 </Grid>
 
 
@@ -190,9 +223,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Sexo"
-                                        name="state"
+                                        name="idSexo"
                                         required
                                         select
+                                        value={data.paciente.idSexo} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -216,9 +251,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Tipo de Sangre"
-                                        name="state"
+                                        name="idTipoSangre"
                                         required
                                         select
+                                        value={data.paciente.idTipoSangre} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -242,9 +279,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Profesión"
-                                        name="state"
+                                        name="idProfesiones"
                                         required
                                         select
+                                        value={data.paciente.idProfesiones} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -268,9 +307,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Religión"
-                                        name="state"
+                                        name="religion"
                                         required
                                         select
+                                        value={data.paciente.religion} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -293,9 +334,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="País de nacionalidad"
-                                        name="state"
+                                        name="idPaisNac"
                                         required
                                         select
+                                        value={data.paciente.idPaisNac} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -319,9 +362,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Departamento de nacionalidad"
-                                        name="state"
+                                        name="idDepartamentoNac"
                                         required
                                         select
+                                        value={data.paciente.idDepartamentoNac} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -346,9 +391,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="País de residencia"
-                                        name="state"
+                                        name="idPaisRes"
                                         required
                                         select
+                                        value={data.paciente.idPaisRes} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -371,9 +418,11 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Departamento de residencia"
-                                        name="state"
+                                        name="idDepartamentoRes"
                                         required
                                         select
+                                        value={data.paciente.idDepartamentoRes} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -395,22 +444,25 @@ const RegistrarPaciente = () =>{
                                 </Grid>
 
                                 <Grid item xs={12} md={12}>
-                                    <TextField name="direccion" variant="outlined" fullWidth label="Dirección domiciliar" />
+                                    <TextField name="direccionDomiciliar" value={data.paciente.direccionDomiciliar} 
+                                        onChange={ingresarValores} variant="outlined" fullWidth label="Dirección domiciliar" />
                                 </Grid>
 
                                 <Grid item xs={12} md={4}>
                                     <TextField
                                         fullWidth
                                         label="Activo"
-                                        name="state"
+                                        name="activo"
                                         required
                                         select
+                                        value={data.paciente.activo} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
                                             <option value="0">Seleccione...</option>
-                                            <option value="1">Si</option>
-                                            <option value="2">No</option>
+                                            <option value="Si">Si</option>
+                                            <option value="No">No</option>
                                         
                                     </TextField>
                                 </Grid>
@@ -419,16 +471,18 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Embarazada"
-                                        name="state"
+                                        name="embarazada"
                                         required
                                         select
+                                        value={data.paciente.embarazada} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
 
                                         <option value="0">Seleccione...</option>
-                                        <option value="1">Si</option>
-                                        <option value="2">No</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
                                         
                                     </TextField>
                                 </Grid>
@@ -437,22 +491,24 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Fallecido"
-                                        name="state"
+                                        name="fallecido"
                                         required
                                         select
+                                        value={data.paciente.fallecido} 
+                                        onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
 
                                         <option value="0">Seleccione...</option>
-                                        <option value="1">Si</option>
-                                        <option value="2">No</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
                                         
                                     </TextField>
                                 </Grid>
                           
                             </Grid>
-                        </form>
+                        
                     </CardContent>
 
                     <Divider />
@@ -465,12 +521,14 @@ const RegistrarPaciente = () =>{
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" fullWidth variant="contained" color="primary">
+                            <Button type="submit" onClick={registrarPacienteButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
 
                     </Box>
+
+                    </form>
                 </Card>
            
             </div>

@@ -27,7 +27,7 @@ const AsignarExamen = () => {
     }, []);
     
     const consultarExamenes = () =>{
-    
+
         obtenerPerfiles().then((response) => {
             setData((antes) =>({
                 ...antes, 
@@ -53,12 +53,12 @@ const AsignarExamen = () => {
 
     const registrarAsignarButton= e => {
         e.preventDefault();
-        registrarPerfilExamen(data.asignar).then(response => {
+        registrarPerfilExamen(data).then(response => {
             console.log('Se registró la profesión con éxito ', response);
             window.localStorage.setItem("token_seguridad", response.data.token);
         })
 
-        console.log("Datos del usuario: ", data.asignar)
+        console.log("Datos del usuario: ", data)
     }
 
     return(
@@ -83,6 +83,7 @@ const AsignarExamen = () => {
                                         id = "idExamen"
                                         required
                                         select
+                                        onChange={ingresarValores}
                                         value = {data.asignar.idExamen}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
@@ -92,8 +93,8 @@ const AsignarExamen = () => {
                                         {data.examen.map((exam) => {
                                             return (
                                                 <option
-                                                    key={exam.idPerfiles}
-                                                    value={exam.idPerfiles}>
+                                                    key={exam.idExamen}
+                                                    value={exam.idExamen}>
                                                     {exam.descripcion}
                                                 </option>   
                                             );
@@ -109,6 +110,7 @@ const AsignarExamen = () => {
                                         name="idPerfiles"
                                         required
                                         select
+                                        onChange={ingresarValores}
                                         value = {data.asignar.idPerfiles}
                                         SelectProps={{ native: true }}
                                         variant="outlined"

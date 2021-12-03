@@ -7,3 +7,11 @@ export const obtenerDepartamento = () => {
         })
     })
 }
+
+export const registrarDepartamento = dep => {
+    return new Promise((resolve, eject) => {
+        HttpClient.post('/Departamento/Crear', dep).then(response => {
+            resolve(response);
+        })
+    })
+}

@@ -58,7 +58,7 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }} >
 
-            <Button href="" color="secondary" variant="contained" style={{margin: '10px'}}>Iniciar sesión</Button>
+            <Button href="" color="secondary" variant="contained" style={{margin: '10px'}}><Link to="../../pages/login" style={{ textDecoration: 'none' }}>Iniciar sesión</Link></Button>
             <Button color="secondary" variant="contained">Registrate</Button>
 
           </Box>

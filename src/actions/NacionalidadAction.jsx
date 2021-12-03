@@ -7,3 +7,11 @@ export const obtenerNacionalidad = () => {
         })
     })
 }
+
+export const registrarNacionalidad = nacionalidad => {
+    return new Promise((resolve, eject) => {
+        HttpClient.post('/Nacionalidad/Crear', nacionalidad).then(response => {
+            resolve(response);
+        })
+    })
+}

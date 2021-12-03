@@ -20,6 +20,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannerp from '../../images/paciente.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-class ListarCategoria extends Component {
+class ListarPaciente extends Component {
 
   state = {
     exams: []
@@ -39,11 +40,11 @@ class ListarCategoria extends Component {
   }
 
   componentDidMount(){
-    this.consultarCategoria();  
+    this.consultarPaciente();  
   }
 
-  consultarCategoria= async () =>{
-    const url = `https://localhost:44342/api/PerfilExamen`;
+  consultarPaciente= async () =>{
+    const url = `https://localhost:44342/api/Paciente`;
 
     const respuesta = await fetch(url);
     const exams = await respuesta.json();
@@ -65,14 +66,14 @@ class ListarCategoria extends Component {
           <CardMedia
             component="img"
             height="194"
-            image="https://nosinmiscookies.com/wp-content/uploads/2019/09/como-optimizar-banner-publicitario.jpg"
+            image={Bannerp}
             alt="Paella dish"
           />
           
               <CardHeader
-              subheader="Registro de todos las asignación de exámenes en el sistema"
-              title="Asignación de examen con categoría"
-              action={<a href="../exams/Asignar"><Button fullWidth variant="contained" size="small" color="primary">Agregar un nuevo registro</Button></a>}
+              subheader="Registro de todos los pacientes en el sistema"
+              title="Lista de pacientes"
+              action={<a href="../paciente/Registrar"><Button fullWidth variant="contained" size="small" color="primary">Agregar un nuevo registro</Button></a>}
               />
 
               <Divider />
@@ -82,22 +83,34 @@ class ListarCategoria extends Component {
                 <Table sx={{ minWidth: 400 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell >Nombre del examen</StyledTableCell>
-                      <StyledTableCell >Nombre del perfil</StyledTableCell>
+                      <StyledTableCell >Nombres</StyledTableCell>
+                      <StyledTableCell >Apellidos</StyledTableCell>
+                      <StyledTableCell >Número Inss</StyledTableCell>
+                      <StyledTableCell >Email</StyledTableCell>
                       <StyledTableCell align="center" width="14%"></StyledTableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.state.exams.map((exam) => (
-                      <TableRow key={exam.idPerfilesExamenes}>
+                      <TableRow key={exam.idPaciente}>
 
+                         
                         <TableCell component="th" scope="row">
-                          {exam.idExamen}
+                          {exam.primerNombre} {exam.segundoNombre}
+                        </TableCell>
+ 
+                        <TableCell component="th" scope="row">
+                          {exam.primerApellido} {exam.segundoApellido}
                         </TableCell>
 
                         <TableCell component="th" scope="row">
-                          {exam.idPerfiles}
+                          {exam.numInss}
                         </TableCell>
+
+                        <TableCell component="th" scope="row">
+                          {exam.email}
+                        </TableCell>
+
 
                         <TableCell>
 
@@ -127,4 +140,4 @@ class ListarCategoria extends Component {
   }
 }
 
-export default ListarCategoria;
+export default ListarPaciente;

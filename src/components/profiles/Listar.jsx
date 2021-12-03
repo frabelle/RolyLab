@@ -22,6 +22,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Bannerp from '../../images/perfil.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,12 +75,12 @@ class ListarExamen extends Component {
 
                 <Card>
 
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image="https://nosinmiscookies.com/wp-content/uploads/2019/09/como-optimizar-banner-publicitario.jpg"
-                  alt="Paella dish"
-                />
+                    <CardMedia
+                           component="img"
+                           height="194"
+                           image={Bannerp}
+                           alt="Paella dish"
+                    />
 
                     <CardHeader
                     subheader="Registro de todos los perfiles en el sistema"

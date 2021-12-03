@@ -7,3 +7,11 @@ export const obtenerExamen = () => {
         })
     })
 }
+
+export const registrarExamen = exam => {
+    return new Promise((resolve, eject) => {
+        HttpClient.post('/Examen/Crear', exam).then(response => {
+            resolve(response);
+        })
+    })
+}

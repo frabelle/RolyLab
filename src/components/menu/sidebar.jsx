@@ -37,17 +37,17 @@ const Sidebar = () =>{
                     
                     <Typography variant="h7" component="h5" marginLeft="30px" marginTop="10px" marginBottom="10px">Gestión de datos</Typography>
 
-                    <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes<Link to="../paciente/Registrar" /></MenuItem>
-                    <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores<Link to="../medicos/Registrar" /></MenuItem>
-
+                    <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes<Link to="../paciente/Lista" /></MenuItem>
+                    <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores<Link to="../medicos/Lista" /></MenuItem>
+                    
                     <SubMenu title="Procedencia" icon={<PublicIcon />}>
-                        <MenuItem>Nacionalidad<Link to="../nacionalidad/Registrar" /></MenuItem>
-                        <MenuItem>Departamento<Link to="../departamento/Registrar" /></MenuItem>
-                        <MenuItem>País<Link to="../pais/Registrar" /></MenuItem>
+                        <MenuItem>Nacionalidad<Link to="../nacionalidad/Lista" /></MenuItem>
+                        <MenuItem>Departamento<Link to="../departamento/Lista" /></MenuItem>
+                        <MenuItem>País<Link to="../pais/Lista" /></MenuItem>
                     </SubMenu>
 
-                    <MenuItem icon={<ChurchIcon />}>Religión<Link to="../religion/Registrar" /></MenuItem>
-                    <MenuItem icon={<FolderSharedIcon />}>Profesiones<Link to="../profesiones/Registrar" /></MenuItem>
+                    <MenuItem icon={<ChurchIcon />}>Religión<Link to="../religion/Lista" /></MenuItem>
+                    <MenuItem icon={<FolderSharedIcon />}>Profesiones<Link to="../profesiones/Lista" /></MenuItem>
                     
 
                     <Typography variant="h7" component="h5" marginLeft="30px" marginTop="20px" marginBottom="10px">Gestión de examen</Typography>
@@ -57,7 +57,7 @@ const Sidebar = () =>{
                             Gestión de examen <Link to="../exams/Lista" />
                         </MenuItem>
                         <MenuItem>Asignación a perfil <Link to="../exams/ListaAsignacion"/></MenuItem>
-                        <MenuItem>Valores normales <Link to="../valnormalesexam/Registrar" /></MenuItem>
+                        <MenuItem>Valores normales <Link to="../valnormalesexam/Lista" /></MenuItem>
                     </SubMenu>
                     
                     <MenuItem title="Perfiles" icon={<MenuBookIcon/>}><Link to="../profiles/Listar" />Perfiles</MenuItem>

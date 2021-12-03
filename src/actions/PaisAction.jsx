@@ -7,3 +7,11 @@ export const obtenerPais = () => {
         })
     })
 }
+
+export const registrarPais = pais => {
+    return new Promise((resolve, eject) => {
+        HttpClient.post('/Pais/Crear', pais).then(response => {
+            resolve(response);
+        })
+    })
+}
