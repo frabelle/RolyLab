@@ -28,7 +28,7 @@ const Sidebar = () =>{
 
                 </Grid>
                 <Menu iconShape="">
-                    <MenuItem icon={<HomeIcon />}>Página de inicio</MenuItem>
+                    <MenuItem icon={<HomeIcon />}>Página de inicio<Link to="../../pages/index" /></MenuItem>
                 </Menu>
 
             </SidebarHeader>
@@ -37,38 +37,31 @@ const Sidebar = () =>{
                     
                     <Typography variant="h7" component="h5" marginLeft="30px" marginTop="10px" marginBottom="10px">Gestión de datos</Typography>
 
-                    <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes<Link to="/" /></MenuItem>
-                    <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores</MenuItem>
+                    <MenuItem icon={<AssignmentIndIcon />}>Gestión de pacientes<Link to="../paciente/Registrar" /></MenuItem>
+                    <MenuItem icon={<LocalHospitalIcon />}>Gestión de doctores<Link to="../medicos/Registrar" /></MenuItem>
 
                     <SubMenu title="Procedencia" icon={<PublicIcon />}>
-                        <MenuItem>Nacionalidad</MenuItem>
-                        <MenuItem>Departamento</MenuItem>
-                        <MenuItem>País</MenuItem>
+                        <MenuItem>Nacionalidad<Link to="../nacionalidad/Registrar" /></MenuItem>
+                        <MenuItem>Departamento<Link to="../departamento/Registrar" /></MenuItem>
+                        <MenuItem>País<Link to="../pais/Registrar" /></MenuItem>
                     </SubMenu>
 
-                    <MenuItem icon={<ChurchIcon />}>Religión</MenuItem>
-                    <MenuItem icon={<FolderSharedIcon />}>Profesiones</MenuItem>
+                    <MenuItem icon={<ChurchIcon />}>Religión<Link to="../religion/Registrar" /></MenuItem>
+                    <MenuItem icon={<FolderSharedIcon />}>Profesiones<Link to="../profesiones/Registrar" /></MenuItem>
                     
 
                     <Typography variant="h7" component="h5" marginLeft="30px" marginTop="20px" marginBottom="10px">Gestión de examen</Typography>
                     
                     <SubMenu title="Exámenes" icon={<SummarizeIcon />}>
                         <MenuItem>
-                            Gestión de examen <Link to="../exams/Registrar" />
+                            Gestión de examen <Link to="../exams/Lista" />
                         </MenuItem>
-                        <MenuItem>Asignación a perfil <Link to="../exams/Asignar" /></MenuItem>
-                        <MenuItem>Valores normales <Link to="../exams/Lista" /></MenuItem>
+                        <MenuItem>Asignación a perfil <Link to="../exams/ListaAsignacion"/></MenuItem>
+                        <MenuItem>Valores normales <Link to="../valnormalesexam/Registrar" /></MenuItem>
                     </SubMenu>
                     
-                    <SubMenu title="Perfiles" icon={<MenuBookIcon/>}>
-                        <MenuItem>Gestión de Perfiles<Link to="../profiles/Registrar" /></MenuItem>
-                        <MenuItem>Lista de Perfiles<Link to="../profiles/Listar" /></MenuItem>
-                    </SubMenu>
-
-                    <SubMenu title="Categorías" icon={<PostAddIcon />}>
-                        <MenuItem>Gestion de Categorías<Link to="../category/Registrar" /></MenuItem>
-                        <MenuItem>Lista de Categorías<Link to="../category/Listar" /></MenuItem>
-                    </SubMenu>
+                    <MenuItem title="Perfiles" icon={<MenuBookIcon/>}><Link to="../profiles/Listar" />Perfiles</MenuItem>
+                    <MenuItem title="Categorías" icon={<PostAddIcon />}><Link to="../category/Listar" />Categorías</MenuItem>
 
                 </Menu>
             </SidebarContent>

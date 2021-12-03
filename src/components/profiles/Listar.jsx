@@ -3,8 +3,11 @@ import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
   Box,
+  Button,
+  IconButton,
   Card,
   CardContent,
+  CardMedia,
   CardHeader,
   Divider
 } from '@mui/material';
@@ -17,6 +20,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -69,9 +74,17 @@ class ListarExamen extends Component {
 
                 <Card>
 
+                <CardMedia
+                  component="img"
+                  height="194"
+                  image="https://nosinmiscookies.com/wp-content/uploads/2019/09/como-optimizar-banner-publicitario.jpg"
+                  alt="Paella dish"
+                />
+
                     <CardHeader
                     subheader="Registro de todos los perfiles en el sistema"
                     title="Lista de perfiles"
+                    action={<a href="../profiles/Registrar"><Button fullWidth variant="contained" size="small" color="primary">Agregar un nuevo registro</Button></a>}
                     />
 
                     <Divider />
@@ -81,19 +94,25 @@ class ListarExamen extends Component {
                       <Table sx={{ minWidth: 400 }} aria-label="customized table">
                         <TableHead>
                           <TableRow>
-                            <StyledTableCell >ID</StyledTableCell>
                             <StyledTableCell >Nombre del perfil</StyledTableCell>
-                            <StyledTableCell align="center">Estado</StyledTableCell>
+                            <StyledTableCell width="14%"></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                           {this.state.profiles.map((exam) => (
                             <TableRow key={exam.idPerfiles}>
-                              <TableCell component="th" scope="row">
-                                {exam.idPerfiles}
-                              </TableCell>
                               <TableCell>{exam.descripcion}</TableCell>
-                              <TableCell align="center">{exam.estado}</TableCell>
+                              <TableCell>
+
+                                <IconButton aria-label="edit" color="warning">
+                                  <EditIcon />
+                                </IconButton>
+
+                                <IconButton aria-label="delete" color="error">
+                                  <DeleteIcon />
+                                </IconButton>
+
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

@@ -43,7 +43,7 @@ class ListarCategoria extends Component {
   }
 
   consultarCategoria= async () =>{
-    const url = `https://localhost:44342/api/CategoriaExamenes`;
+    const url = `https://localhost:44342/api/PerfilExamen`;
 
     const respuesta = await fetch(url);
     const exams = await respuesta.json();
@@ -72,7 +72,7 @@ class ListarCategoria extends Component {
               <CardHeader
               subheader="Registro de todos las categorías de exámenes en el sistema"
               title="Lista de categoría"
-              action={<a href="../category/Registrar"><Button fullWidth variant="contained" size="small" color="primary">Agregar un nuevo registro</Button></a>}
+              action={<a href="../exams/Asignar"><Button fullWidth variant="contained" size="small" color="primary">Agregar un nuevo registro</Button></a>}
               />
 
               <Divider />
@@ -82,16 +82,21 @@ class ListarCategoria extends Component {
                 <Table sx={{ minWidth: 400 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell >Nombre de la categoría</StyledTableCell>
+                      <StyledTableCell >Nombre del examen</StyledTableCell>
+                      <StyledTableCell >Nombre del perfil</StyledTableCell>
                       <StyledTableCell align="center" width="14%"></StyledTableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.state.exams.map((exam) => (
-                      <TableRow key={exam.idCategoriaExamenes}>
+                      <TableRow key={exam.idPerfilesExamenes}>
 
                         <TableCell component="th" scope="row">
-                          {exam.descripcion}
+                          {exam.idExamen}
+                        </TableCell>
+
+                        <TableCell component="th" scope="row">
+                          {exam.idPerfiles}
                         </TableCell>
 
                         <TableCell>

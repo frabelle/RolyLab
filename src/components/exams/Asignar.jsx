@@ -1,5 +1,6 @@
 import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
 import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import axios from 'axios';
 import {
@@ -9,37 +10,57 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
-import { obtenerExamen } from '../../actions/ExamenAction';
+import { obtenerPerfiles } from '../../actions/PerfilAction';
+import {obtenerExamen} from '../../actions/ExamenAction';
+import { registrarPerfilExamen } from '../../actions/PerfilExamenAction';
 
-class AsignarExamen extends Component {
+const AsignarExamen = () => {
 
-    state = {
-        exams: [],
-        perfil: []
-      }
-    
-      componentDidMount(){
-        this.consultarExamenes();  
-      }
-    
-      consultarExamenes = async () =>{
-        const url = `https://localhost:44342/api/Examen`;
-        const url2 = `https://localhost:44342/api/Perfil`;
-    
-        const respuesta = await fetch(url);
-        const respuesta2 = await fetch(url2);
-        const exams = await respuesta.json();
-        const perfil = await respuesta2.json();
-    
-        console.log(exams);
-        
-        this.setState({
-          exams: exams,
-          perfil: perfil,
-        });
-      }
+    const [data, setData] = useState({
+        perfil: [],
+        examen: [],
+        asignar: []
+    })
 
-      render(){
+    useEffect(() => {
+        consultarExamenes();   
+    }, []);
+    
+    const consultarExamenes = () =>{
+    
+        obtenerPerfiles().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                perfil: response.data
+            }));
+        }) 
+
+        obtenerExamen().then((response) =>{
+            setData((antes) =>({
+                ...antes, 
+                examen: response.data
+            }));
+        })
+    }
+
+    const ingresarValores = e =>{
+        const {name, value} = e.target;
+        setData( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+    }
+
+    const registrarAsignarButton= e => {
+        e.preventDefault();
+        registrarPerfilExamen(data.asignar).then(response => {
+            console.log('Se registró la profesión con éxito ', response);
+            window.localStorage.setItem("token_seguridad", response.data.token);
+        })
+
+        console.log("Datos del usuario: ", data.asignar)
+    }
+
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
@@ -51,32 +72,32 @@ class AsignarExamen extends Component {
                     />
 
                     <Divider />
-
+                    <form style={styles.form}>
                     <CardContent>
-                        <form style={styles.form}>
                             <Grid container spacing={3}>
 
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         fullWidth
                                         label="Examen"
-                                        name="state"
+                                        id = "idExamen"
                                         required
                                         select
+                                        value = {data.asignar.idExamen}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
                                         
                                         <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.exams.map((exam) => (
-                                            <option
-                                                key={exam.idExamen}
-                                                value={exam.idExamen}
-                                            >
-                                                {exam.descripcionCorta}
-                                            </option>
-                                        ))}
+                                        {data.examen.map((exam) => {
+                                            return (
+                                                <option
+                                                    key={exam.idPerfiles}
+                                                    value={exam.idPerfiles}>
+                                                    {exam.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                         
                                     </TextField>
                                 </Grid>
@@ -85,29 +106,30 @@ class AsignarExamen extends Component {
                                     <TextField
                                         fullWidth
                                         label="Perfil"
-                                        name="state"
+                                        name="idPerfiles"
                                         required
                                         select
+                                        value = {data.asignar.idPerfiles}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
 
                                         <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.perfil.map((perfils) => (
-                                            <option
-                                                key={perfils.idPerfiles}
-                                                value={perfils.idPerfiles}
-                                            >
-                                                {perfils.descripcion}
-                                            </option>
-                                        ))}
-                                        
+
+                                        {data.perfil.map((perf) => {
+                                            return (
+                                                <option
+                                                key={perf.idPerfiles}
+                                                value={perf.idPerfiles}>
+                                                {perf.descripcion}
+                                        </option>   
+                                            );
+                                        })}
+
                                     </TextField>
                                 </Grid>
 
                             </Grid>
-                        </form>
                     </CardContent>
 
                     <Divider />
@@ -120,12 +142,15 @@ class AsignarExamen extends Component {
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" fullWidth variant="contained" color="primary">
+                            <Button type="submit" onClick={registrarAsignarButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
 
                     </Box>
+
+                    </form>
+
                 </Card>
            
             </div>
@@ -134,7 +159,6 @@ class AsignarExamen extends Component {
       
 
     )
-                }
 }
 
 export default AsignarExamen;

@@ -9,7 +9,7 @@ import {
     Divider
   } from '@mui/material';
 
-const RegistrarProfesion = () =>{
+const RegistrarNacionalidad = () =>{
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
@@ -17,8 +17,8 @@ const RegistrarProfesion = () =>{
                 <Card>
 
                     <CardHeader
-                    subheader="Añadiendo un nuevo registro de profesión"
-                    title="Profesiones"
+                    subheader="Añadiendo un nuevo registro de nacionalidad"
+                    title="Nacionalidades"
                     />
 
                     <Divider />
@@ -28,8 +28,9 @@ const RegistrarProfesion = () =>{
                             <Grid container spacing={3}>
 
                                 <Grid item xs={12} md={12}>
-                                    <TextField name="nombre" variant="outlined" fullWidth label="Nombre de profesión" />
-                                </Grid> 
+                                    <TextField name="nombre" variant="outlined" fullWidth label="Nombre de la nacionalidad" />
+                                </Grid>
+
                             </Grid>
                         </form>
                     </CardContent>
@@ -60,4 +61,4 @@ const RegistrarProfesion = () =>{
     )
 }
 
-export default RegistrarProfesion;
+export default RegistrarNacionalidad;

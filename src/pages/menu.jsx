@@ -1,8 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import RegistrarExamen from '../components/exams/Registrar';
-import AsignarExamen from '../components/exams/Asignar';
+import Index from '../pages/index'
+import RegistrarPaciente from '../components/paciente/Registrar'
+import RegistrarDoctores from '../components/medicos/Registrar'
+import RegistrarNacionalidad from '../components/nacionalidad/Registrar'
+import RegistrarDepartamento from '../components/departamento/Registrar'
+import RegistrarPais from '../components/pais/Registrar'
+import RegistrarReligion from '../components/religion/Registrar'
+import RegistrarProfesiones from '../components/profesiones/Registrar'
+import RegistrarValoresNormales from '../components/valnormalesexam/Registrar'
+import ListarAsignacion from '../components/exams/ListaAsignacion'
+import RegistrarExamen from '../components/exams/Registrar'
+import AsignarExamen from '../components/exams/Asignar'
 import RegistrarPerfil from '../components/profiles/Registrar'
 import ListarPerfil from '../components/profiles/Listar'
 import RegistrarCategoria from '../components/category/Registrar'
@@ -10,6 +20,7 @@ import ListarExamen from '../components/exams/Lista'
 import ListarCategoria from '../components/category/Listar'
 import Sidebar from '../components/menu/sidebar'
 import Toolbar from '../components/menu/toolbar'
+import { DashboardNavbar } from '../components/menu/topbar';
 import { BrowserRouter as Router, Route, Routes as Switch } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -19,6 +30,8 @@ function ResponsiveDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       
+      <DashboardNavbar/>
+
       <Router>
           <Sidebar position="static"/>
 
@@ -30,7 +43,18 @@ function ResponsiveDrawer() {
           <Toolbar/>
 
           <Switch>
+                <Route exact path="/pages/index" element={<Index/>}></Route>
+                <Route exact path="/paciente/Registrar" element={<RegistrarPaciente/>}></Route>
+                <Route exact path="/medicos/Registrar" element={<RegistrarDoctores/>}></Route>
+                <Route exact path="/departamento/Registrar" element={<RegistrarDepartamento/>}></Route>
+                <Route exact path="/pais/Registrar" element={<RegistrarPais/>}></Route>
+                <Route exact path="/religion/Registrar" element={<RegistrarReligion/>}></Route>
+                <Route exact path="/nacionalidad/Registrar" element={<RegistrarNacionalidad/>}></Route>
+                <Route exact path="/profesiones/Registrar" element={<RegistrarProfesiones/>}></Route>
+                <Route exact path="/valnormalesexam/Registrar" element={<RegistrarValoresNormales/>}></Route>
+
                 <Route exact path="/exams/Registrar" element={<RegistrarExamen/>}></Route> 
+                <Route exact path="/exams/ListaAsignacion" element={<ListarAsignacion/>}></Route> 
                 <Route exact path="/exams/Asignar" element={<AsignarExamen/>}></Route> 
                 <Route exact path="/exams/Lista" element={<ListarExamen/>}></Route> 
                 <Route exact path="/profiles/Listar" element={<ListarPerfil/>}></Route> 
@@ -40,6 +64,7 @@ function ResponsiveDrawer() {
               </Switch> 
         </Box>
       </Router>
+      
     </Box>
   );
 }
