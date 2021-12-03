@@ -163,10 +163,10 @@ const theme = createTheme({
             contrastText: '#FFFFFF'
         },
         secondary: {
-            main: '#10B981',
-            light: '#3FC79A',
-            dark: '#0B815A',
-            contrastText: '#FFFFFF'
+            main: '#828DF8',
+            light: '#FFFFFF',
+            dark: '#3832A0',
+            contrastText: '#0000000'
         },
         success: {
             main: '#14B8A6',

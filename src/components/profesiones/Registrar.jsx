@@ -1,7 +1,7 @@
-import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
-import React from 'react';
-import styles from '../tools/Styles';
+import { Button, Container, Grid, TextField} from '@mui/material';
 import { useState } from 'react';
+import  { Link } from 'react-router-dom'
+import styles from '../tools/Styles';
 import {
     Box,
     Card,
@@ -9,33 +9,31 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
-  import {registrarPerfil} from '../../actions/PerfilAction'
+import {registrarProfesion} from '../../actions/ProfesionesAction'
 
+const RegistrarProfesion = () =>{
 
-const RegistrarPerfil = () =>{
-
-    const [perfil, setPerfil] = useState({
+    const [profesion, setProfesion] = useState({
         descripcion: ''
     })
 
     const ingresarValores = e =>{
         const {name, value} = e.target;
-        setPerfil( anterior => ({
+        setProfesion( anterior => ({
             ...anterior,
             [name] : value
         }))
     }
 
-    const registrarPerfilButton= e => {
+    const registrarProfesionButton= e => {
         e.preventDefault();
-        registrarPerfil(perfil).then(response => {
+        registrarProfesion(profesion).then(response => {
             console.log('Se registró la profesión con éxito ', response);
             window.localStorage.setItem("token_seguridad", response.data.token);
         })
-        
-        console.log("Datos del usuario: ", perfil)
-    }
 
+        console.log("Datos del usuario: ", profesion)
+    }
 
     return(
         <Container component="main" maxWidth="lg" justify = "center">
@@ -44,22 +42,21 @@ const RegistrarPerfil = () =>{
                 <Card>
 
                     <CardHeader
-                    subheader="Añadiendo un nuevo registro de perfil"
-                    title="Perfiles"
+                        subheader="Añadiendo un nuevo registro de profesión"
+                        title="Profesiones"
                     />
 
                     <Divider />
-                    <form style={styles.form}>
+
                     <CardContent>
-                        
+                        <form style={styles.form}>
                             <Grid container spacing={3}>
 
                                 <Grid item xs={12} md={12}>
-                                    <TextField name="descripcion" value={perfil.descripcion} onChange={ingresarValores} variant="outlined" fullWidth label="Nombre del examen" />
-                                </Grid>
-
+                                    <TextField name="descripcion" value={profesion.descripcion} onChange={ingresarValores} variant="outlined" fullWidth label="Nombre de profesión" />
+                                </Grid> 
                             </Grid>
-                        
+                        </form>
                     </CardContent>
 
                     <Divider />
@@ -72,13 +69,12 @@ const RegistrarPerfil = () =>{
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" onClick={registrarPerfilButton} fullWidth variant="contained" color="primary">
+                            <Button type="submit" onClick={registrarProfesionButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
-                        
+
                     </Box>
-                    </form>
                 </Card>
            
             </div>
@@ -89,4 +85,4 @@ const RegistrarPerfil = () =>{
     )
 }
 
-export default RegistrarPerfil;
+export default RegistrarProfesion;

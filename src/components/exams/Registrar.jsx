@@ -1,5 +1,6 @@
 import { Button, Container, Grid, TextField, MenuItem} from '@mui/material';
 import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import {
     Box,
@@ -8,50 +9,65 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
+import { obtenerAreaServicio } from '../../actions/AreaServicio';
+import { obtenerCategoriaExamenes } from '../../actions/CategoriaAction';
+import { obtenerTipoMuestra } from '../../actions/TipoMuestra';
+import { obtenerUnidadMedidas } from '../../actions/UnidadMedidas';
+import { obtenerTipoResultado } from '../../actions/TipoResultado';
 
-  class RegistrarExamen extends Component {
+  const RegistrarExamen = () =>{
 
-    state = {
-        category: [],
-        muestras: [],
-        medidas: [],
-        result:  [],
-        area: [],
-      }
+    const [data, setData] = useState({
+        areaS: [],
+        categoria: [],
+        tipoMuestra: [],
+        unidadMedidas: [],
+        tipoResultado: []
+    })
+
+    useEffect(() => {
+        consultarExamenes();   
+    }, []);
     
-      componentDidMount(){
-        this.consultarExamenes();  
-      }
+    const consultarExamenes = () =>{
     
-      consultarExamenes = async () =>{
-        const url = `https://localhost:44342/api/CategoriaExamenes`;
-        const url2 = `https://localhost:44342/api/TipoMuestras`;
-        const url3 = `https://localhost:44342/api/UnidadMedidas`;
-        const url4 = `https://localhost:44342/api/TipoResultado`;
-        const url5 = `https://localhost:44342/api/AreaServicios`;
-    
-        const respuesta = await fetch(url);
-        const respuesta2 = await fetch(url2);
-        const respuesta3 = await fetch(url3);
-        const respuesta4 = await fetch(url4);
-        const respuesta5 = await fetch(url5);
+        obtenerAreaServicio().then((response) =>{
+            setData((antes) =>({
+                ...antes,
+                areaS: response.data
+            }))
+        })
 
-        const category = await respuesta.json();
-        const muestras = await respuesta2.json();
-        const medidas = await respuesta3.json();
-        const result = await respuesta4.json();
-        const area = await respuesta5.json();
-        
-        this.setState({
-          category: category,
-          muestras: muestras,
-          medidas: medidas,
-          result: result,
-          area: area,
-        });
-      }
+        obtenerCategoriaExamenes().then((response) => {
+            setData((antes) => ({
+                ...antes,
+                categoria: response.data
+            }))
+        })
 
-    render(){
+        obtenerTipoMuestra().then((response) => {
+            setData((antes) => ({
+                ...antes,
+                tipoMuestra: response.data
+            }))
+        })
+
+        obtenerUnidadMedidas().then((response) =>{
+            setData((antes) => ({
+                ...antes,
+                unidadMedidas: response.data
+            }))
+        })
+
+        obtenerTipoResultado().then((response) =>{
+            setData((antes) => ({
+                ...antes,
+                tipoResultado: response.data
+            }))
+        })
+
+    }
+
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
@@ -85,15 +101,15 @@ import {
                                     >
 
                                     <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.area.map((exam) => (
-                                            <option
-                                                key={exam.IdAreaServ}
-                                                value={exam.IdAreaServ}
-                                            >
-                                                {exam.descripcion}
-                                            </option>
-                                        ))}
+                                        {data.areaS.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idAreaServ}
+                                                    value={id.idAreaServ}>
+                                                    {id.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                     
                                 </TextField>
                             </Grid>
@@ -110,15 +126,15 @@ import {
                                     >
 
                                     <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.category.map((exam) => (
-                                            <option
-                                                key={exam.idCategoriaExamenes}
-                                                value={exam.idCategoriaExamenes}
-                                            >
-                                                {exam.descripcion}
-                                            </option>
-                                        ))}
+                                        {data.categoria.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idCategoriaExamenes}
+                                                    value={id.idCategoriaExamenes}>
+                                                    {id.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                     
                                 </TextField>
                             </Grid>
@@ -133,18 +149,16 @@ import {
                                     SelectProps={{ native: true }}
                                     variant="outlined"
                                     >
-
                                     <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.muestras.map((exam) => (
-                                            <option
-                                                key={exam.idTipoMuestra}
-                                                value={exam.idTipoMuestra}
-                                            >
-                                                {exam.descripcion}
-                                            </option>
-                                        ))}
-                                    
+                                        {data.tipoMuestra.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idTipoMuestra}
+                                                    value={id.idTipoMuestra}>
+                                                    {id.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                 </TextField>
                             </Grid>
 
@@ -159,16 +173,16 @@ import {
                                     variant="outlined"
                                     >
 
-                                <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.medidas.map((exam) => (
-                                            <option
-                                                key={exam.idUnidadMedidas}
-                                                value={exam.idUnidadMedidas}
-                                            >
-                                                {exam.unidadMedida}
-                                            </option>
-                                        ))}
+                                    <option value="0">Seleccione...</option>
+                                        {data.unidadMedidas.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idUnidadMedidas}
+                                                    value={id.idUnidadMedidas}>
+                                                    {id.unidadMedida}
+                                                </option>   
+                                            );
+                                        })}
                                     
                                 </TextField>
                             </Grid>
@@ -185,15 +199,15 @@ import {
                                     >
 
                                     <option value="0">Seleccione...</option>
-                                        
-                                        {this.state.result.map((exam) => (
-                                            <option
-                                                key={exam.idTipoResultado}
-                                                value={exam.idTipoResultado}
-                                            >
-                                                {exam.descripcion}
-                                            </option>
-                                        ))}
+                                        {data.tipoResultado.map((id) => {
+                                            return (
+                                                <option
+                                                    key={id.idTipoResultado}
+                                                    value={id.idTipoResultado}>
+                                                    {id.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                     
                                 </TextField>
                             </Grid>
@@ -227,7 +241,7 @@ import {
             </div>
         </Container>
 
-    )}
+    )
 }
 
 export default RegistrarExamen;

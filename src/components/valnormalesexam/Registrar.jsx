@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Select, TextField, Typography, InputLabel, FormControl, MenuItem} from '@mui/material';
 import React from 'react';
 import styles from '../tools/Styles';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Card,
@@ -8,8 +9,38 @@ import {
     CardHeader,
     Divider
   } from '@mui/material';
+import { obtenerExamen } from '../../actions/ExamenAction';
+import { obtenerSexos } from '../../actions/SexoAction';
 
 const RegistrarValnormales = () =>{
+
+    const [data, setData] = useState({
+        sexo: [],
+        examen: [],
+    })
+
+    useEffect(() => {
+        consultarExamenes();   
+    }, []);
+    
+    const consultarExamenes = () =>{
+    
+        obtenerSexos().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                sexo: response.data
+            }));
+        }) 
+
+        obtenerExamen().then((response) =>{
+            setData((antes) =>({
+                ...antes, 
+                examen: response.data
+            }));
+        })
+    }
+
+
     return(
         <Container component="main" maxWidth="lg" justify = "center">
             <div style={styles.paper}>
@@ -17,8 +48,8 @@ const RegistrarValnormales = () =>{
                 <Card>
 
                     <CardHeader
-                    subheader="Añadiendo un nuevo registro de valor normal de exámen"
-                    title="Valores normales de Exámenes"
+                    subheader="Añadiendo un nuevo registro de valor normal de examen"
+                    title="Valores normales de exámenes"
                     />
 
                     <Divider />
@@ -29,17 +60,24 @@ const RegistrarValnormales = () =>{
                             <Grid item xs={12} md={6}>
                                     <TextField
                                         fullWidth
-                                        label="Exámen"
+                                        label="Examen"
                                         name="state"
                                         required
                                         select
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
-
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                            
+                                        <option value="0">Seleccione...</option>
+                                        {data.examen.map((exam) => {
+                                            return (
+                                                <option
+                                                    key={exam.idExamen}
+                                                    value={exam.idExamen}>
+                                                    {exam.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                         
                                     </TextField>
 
@@ -56,9 +94,16 @@ const RegistrarValnormales = () =>{
                                         variant="outlined"
                                         >
 
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <option value="0">Seleccione...</option>
+                                        {data.sexo.map((exam) => {
+                                            return (
+                                                <option
+                                                    key={exam.idSexo}
+                                                    value={exam.idSexo}>
+                                                    {exam.descripcion}
+                                                </option>   
+                                            );
+                                        })}
                                         
                                     </TextField>
                                 </Grid>
