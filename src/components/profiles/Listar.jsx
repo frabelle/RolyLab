@@ -17,6 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannerp from '../../images/perfil.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -68,7 +69,12 @@ class ListarExamen extends Component {
             <div style={styles.paper}>
 
                 <Card>
-
+                <CardMedia
+                           component="img"
+                           height="194"
+                           image={Bannerp}
+                           alt="Paella dish"
+                    />
                     <CardHeader
                     subheader="Registro de todos los perfiles en el sistema"
                     title="Lista de perfiles"

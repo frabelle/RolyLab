@@ -20,6 +20,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannerv from '../../images/valnormal.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,7 +66,7 @@ class ListarValoresnormales extends Component {
           <CardMedia
             component="img"
             height="194"
-            image="https://nosinmiscookies.com/wp-content/uploads/2019/09/como-optimizar-banner-publicitario.jpg"
+            image={Bannerv}
             alt="Paella dish"
           />
           

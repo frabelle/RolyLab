@@ -20,6 +20,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannerd from '../../images/department.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -65,7 +66,7 @@ class ListarDepartamento extends Component {
           <CardMedia
             component="img"
             height="194"
-            image="https://nosinmiscookies.com/wp-content/uploads/2019/09/como-optimizar-banner-publicitario.jpg"
+            image={Bannerd}
             alt="Paella dish"
           />
           

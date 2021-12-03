@@ -17,6 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannere from '../../images/examen.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -72,6 +73,13 @@ class ListarExamen extends Component {
 
                 <Card>
 
+
+                    <CardMedia
+                           component="img"
+                           height="194"
+                           image={Bannere}
+                           alt="Paella dish"
+                    />
                     <CardHeader
                     subheader="Registro de todos los exámenes en el sistema"
                     title="Lista de exámenes"

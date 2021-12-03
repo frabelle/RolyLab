@@ -17,6 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Bannerc from '../../images/categoria.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -70,6 +71,13 @@ class ListarCategoria extends Component {
             <div style={styles.paper}>
 
                 <Card>
+                  
+                <CardMedia
+                     component="img"
+                     height="194"
+                     image={Bannerc}
+                     alt="Paella dish"
+               />
 
                     <CardHeader
                     subheader="Registro de todos los exámenes en el sistema"
