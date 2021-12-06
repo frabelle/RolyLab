@@ -7,3 +7,18 @@ export const registrarPerfilExamen = perfil => {
         })
     })
 }
+
+export const obtenerPerfilExamen = () => {
+    return new Promise((resolve, reject) => {
+        HttpClient.get('/PerfilExamen').then(response => {
+            resolve(response);
+        })
+    })
+}
+export const deletePerfilExamen = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/PerfilExamen/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

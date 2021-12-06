@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
@@ -23,6 +23,12 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Bannerp from '../../images/perfil.png';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { deletePerfil, obtenerPerfiles } from '../../actions/PerfilAction';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,40 +40,49 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-function createData(name, area, category, type, unit, typeresult) {
-  return { name, area, category, type, unit, typeresult };
-}
+const ListarExamen = () => {
 
-const rows = [
-  createData('Este es el nombre de examen 1', 'Área de laboratorio 1', 'Categoría 1', 'Tipo 1', 'Unidad 1', 'Resultado 1'),
-  createData('Este es el nombre de examen 2', 'Área de laboratorio 2', 'Categoría 2', 'Tipo 2', 'Unidad 2', 'Resultado 2'),
-  createData('Este es el nombre de examen 3', 'Área de laboratorio 3', 'Categoría 3', 'Tipo 3', 'Unidad 3', 'Resultado 3'),
-  createData('Este es el nombre de examen 4', 'Área de laboratorio 4', 'Categoría 4', 'Tipo 4', 'Unidad 4', 'Resultado 4'),
-  createData('Este es el nombre de examen 5', 'Área de laboratorio 5', 'Categoría 5', 'Tipo 5', 'Unidad 5', 'Resultado 5'),
-];
+  const [data, setData] = useState({
+    valor: []
+  })
 
-class ListarExamen extends Component {
+  var dato;
 
-  state = {
-    profiles: []
+  useEffect(() => {
+      consultarExamenes();   
+  }, []);
 
+    const consultarExamenes = () =>{
+
+        obtenerPerfiles().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                valor: response.data
+            }));
+        }) 
+    }
+
+    const borrarValoresNormalesButton= e => {
+      e.preventDefault();
+      deletePerfil(dato).then(response => {
+          console.log('Se eliminó el dato con éxito ', response);
+          window.localStorage.setItem("token_seguridad", response.data.token);
+          handleClose();
+      })
+
+      console.log("Datos del usuario: ", data)
   }
 
-  componentDidMount(){
-    this.consultarPerfiles();  
-  }
+    const [open, setOpen] = React.useState(false);
 
-  consultarPerfiles = async () =>{
-    const url = `https://localhost:44342/api/Perfil`;
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-    const respuesta = await fetch(url);
-    const profiles = await respuesta.json();
-    
-    this.setState({
-      profiles: profiles
-    });
-  }
-  render(){  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
   return(
 
     <Container component="main" maxWidth="lg" justify = "center">
@@ -100,7 +115,7 @@ class ListarExamen extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                          {this.state.profiles.map((exam) => (
+                          {data.valor.map((exam) => (
                             <TableRow key={exam.idPerfiles}>
                               <TableCell>{exam.descripcion}</TableCell>
                               <TableCell>
@@ -109,7 +124,7 @@ class ListarExamen extends Component {
                                   <EditIcon />
                                 </IconButton>
 
-                                <IconButton aria-label="delete" color="error">
+                                <IconButton aria-label="delete" color="error" onClick={handleClickOpen} onClickCapture={dato = exam.idPerfiles}>
                                   <DeleteIcon />
                                 </IconButton>
 
@@ -126,9 +141,37 @@ class ListarExamen extends Component {
                 </Card>
            
             </div>
+
+            <div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+              <DialogTitle style={{marginTop: '20px'}} id="alert-dialog-title">
+              {"¿Estás seguro que deseas eliminar este registro?"}
+              </DialogTitle>
+
+              <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                      Si estás decidido en eliminarlo recuerda que luego no podrás volver a recuperar estos
+                      datos.
+                  </DialogContentText>
+              </DialogContent>
+
+              <DialogActions style={{marginBottom: '10px'}}>
+                  <Button variant="contained" onClick={borrarValoresNormalesButton} autoFocus>
+                      De acuerdo
+                  </Button>
+                  <Button variant="contained" color="error" size="sm" onClick={handleClose}>Desacuerdo</Button>
+              </DialogActions>
+
+          </Dialog>
+      </div>
         </Container>
   )
-  }
+  
 }
 
 export default ListarExamen;

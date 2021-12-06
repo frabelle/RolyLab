@@ -80,7 +80,7 @@ const AsignarExamen = () => {
                                     <TextField
                                         fullWidth
                                         label="Examen"
-                                        id = "idExamen"
+                                        name = "idExamen"
                                         required
                                         select
                                         onChange={ingresarValores}

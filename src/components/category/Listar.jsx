@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
@@ -21,6 +21,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Bannerc from '../../images/categoria.png';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { deleteCategoriaExamenes, obtenerCategoriaExamenes } from '../../actions/CategoriaAction';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,42 +38,50 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-function createData(name, area, category, type, unit, typeresult) {
-  return { name, area, category, type, unit, typeresult };
-}
+const ListarCategoria = () => {
 
-const rows = [
-  createData('Este es el nombre de examen 1', 'Área de laboratorio 1', 'Categoría 1', 'Tipo 1', 'Unidad 1', 'Resultado 1'),
-  createData('Este es el nombre de examen 2', 'Área de laboratorio 2', 'Categoría 2', 'Tipo 2', 'Unidad 2', 'Resultado 2'),
-  createData('Este es el nombre de examen 3', 'Área de laboratorio 3', 'Categoría 3', 'Tipo 3', 'Unidad 3', 'Resultado 3'),
-  createData('Este es el nombre de examen 4', 'Área de laboratorio 4', 'Categoría 4', 'Tipo 4', 'Unidad 4', 'Resultado 4'),
-  createData('Este es el nombre de examen 5', 'Área de laboratorio 5', 'Categoría 5', 'Tipo 5', 'Unidad 5', 'Resultado 5'),
-];
+  const [data, setData] = useState({
+    valor: []
+  })
 
-class ListarCategoria extends Component {
+  var dato;
 
-  state = {
-    exams: []
+  useEffect(() => {
+      consultarExamenes();   
+  }, []);
 
+    const consultarExamenes = () =>{
+
+        obtenerCategoriaExamenes().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                valor: response.data
+            }));
+        }) 
+    }
+
+    const borrarCategoriaButton= e => {
+      e.preventDefault();
+      deleteCategoriaExamenes(dato).then(response => {
+          console.log('Se eliminó el dato con éxito ', response);
+          window.localStorage.setItem("token_seguridad", response.data.token);
+          handleClose();
+      })
+
+      console.log("Datos del usuario: ", data)
   }
 
-  componentDidMount(){
-    this.consultarCategoria();  
-  }
+    const [open, setOpen] = React.useState(false);
 
-  consultarCategoria= async () =>{
-    const url = `https://localhost:44342/api/CategoriaExamenes`;
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-    const respuesta = await fetch(url);
-    const exams = await respuesta.json();
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-    console.log(exams);
-    
-    this.setState({
-      exams: exams
-    });
-  }
-  render(){  
+
   return(
 
     <Container component="main" maxWidth="lg" justify = "center">
@@ -100,7 +114,7 @@ class ListarCategoria extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.state.exams.map((exam) => (
+                      {data.valor.map((exam) => (
                         <TableRow key={exam.idCategoriaExamenes}>
 
                           <TableCell component="th" scope="row">
@@ -113,7 +127,7 @@ class ListarCategoria extends Component {
                               <EditIcon />
                             </IconButton>
 
-                            <IconButton aria-label="delete" color="error">
+                            <IconButton aria-label="delete" onClick={handleClickOpen} onClickCapture={dato = exam.idCategoriaExamenes} color="error">
                               <DeleteIcon />
                             </IconButton>
 
@@ -130,9 +144,37 @@ class ListarCategoria extends Component {
                 </Card>
            
             </div>
+
+            <div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+              <DialogTitle style={{marginTop: '20px'}} id="alert-dialog-title">
+              {"¿Estás seguro que deseas eliminar este registro?"}
+              </DialogTitle>
+
+              <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                      Si estás decidido en eliminarlo recuerda que luego no podrás volver a recuperar estos
+                      datos.
+                  </DialogContentText>
+              </DialogContent>
+
+              <DialogActions style={{marginBottom: '10px'}}>
+                  <Button variant="contained" onClick={borrarCategoriaButton} autoFocus>
+                      De acuerdo
+                  </Button>
+                  <Button variant="contained" color="error" size="sm" onClick={handleClose}>Desacuerdo</Button>
+              </DialogActions>
+
+          </Dialog>
+      </div>
         </Container>
   )
-  }
+  
 }
 
 export default ListarCategoria;

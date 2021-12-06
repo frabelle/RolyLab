@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
@@ -21,6 +21,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Bannerp from '../../images/paciente.png';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { deletePaciente, obtenerPaciente } from '../../actions/PacienteAction';
+import { deleteMedico } from '../../actions/MedicoAction';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,30 +39,49 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-class ListarPaciente extends Component {
+const ListarPaciente = () => {
 
-  state = {
-    exams: []
+  const [data, setData] = useState({
+    paciente: []
+  })
 
+  useEffect(() => {
+      consultarExamenes();   
+  }, []);
+
+  const consultarExamenes = () =>{
+
+      obtenerPaciente().then((response) => {
+          setData((antes) =>({
+              ...antes, 
+              paciente: response.data
+          }));
+      }) 
   }
 
-  componentDidMount(){
-    this.consultarPaciente();  
-  }
+  var dato;
 
-  consultarPaciente= async () =>{
-    const url = `https://localhost:44342/api/Paciente`;
+  const borrarValoresNormalesButton= e => {
+    e.preventDefault();
+    deletePaciente(dato).then(response => {
+        console.log('Se eliminó el dato con éxito ', response);
+        window.localStorage.setItem("token_seguridad", response.data.token);
+        handleClose();
+    })
 
-    const respuesta = await fetch(url);
-    const exams = await respuesta.json();
+    console.log("Datos del usuario: ", data)
+}
 
-    console.log(exams);
-    
-    this.setState({
-      exams: exams
-    });
-  }
-  render(){  
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+
   return(
 
     <Container component="main" maxWidth="lg" justify = "center">
@@ -91,7 +117,7 @@ class ListarPaciente extends Component {
                       </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.state.exams.map((exam) => (
+                    {data.paciente.map((exam) => (
                       <TableRow key={exam.idPaciente}>
 
                          
@@ -111,14 +137,13 @@ class ListarPaciente extends Component {
                           {exam.email}
                         </TableCell>
 
-
                         <TableCell>
 
                           <IconButton aria-label="edit" color="warning">
                             <EditIcon />
                           </IconButton>
 
-                          <IconButton aria-label="delete" color="error">
+                          <IconButton aria-label="delete" onClick={handleClickOpen} onClickCapture={dato = exam.idPaciente} color="error">
                             <DeleteIcon />
                           </IconButton>
 
@@ -135,9 +160,37 @@ class ListarPaciente extends Component {
           </Card>
       
       </div>
+
+      <div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+              <DialogTitle style={{marginTop: '20px'}} id="alert-dialog-title">
+              {"¿Estás seguro que deseas eliminar este registro?"}
+              </DialogTitle>
+
+              <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                      Si estás decidido en eliminarlo recuerda que luego no podrás volver a recuperar estos
+                      datos.
+                  </DialogContentText>
+              </DialogContent>
+
+              <DialogActions style={{marginBottom: '10px'}}>
+                  <Button variant="contained" onClick={borrarValoresNormalesButton} autoFocus>
+                      De acuerdo
+                  </Button>
+                  <Button variant="contained" color="error" size="sm" onClick={handleClose}>Desacuerdo</Button>
+              </DialogActions>
+
+          </Dialog>
+      </div>
     </Container>
   )
-  }
+  
 }
 
 export default ListarPaciente;

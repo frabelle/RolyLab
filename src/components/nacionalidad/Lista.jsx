@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
@@ -21,6 +21,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Banner from '../../images/nacionalidad.png';
+import { obtenerNacionalidad, deleteNacionalidad} from '../../actions/NacionalidadAction';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,30 +38,49 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-class ListarNacionalidades extends Component {
+const ListarNacionalidades = () => {
 
-  state = {
-    nac: []
+  const [data, setData] = useState({
+    valor: []
+  })
 
+  var dato;
+
+  useEffect(() => {
+      consultarExamenes();   
+  }, []);
+
+    const consultarExamenes = () =>{
+
+        obtenerNacionalidad().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                valor: response.data
+            }));
+        }) 
+    }
+
+    const borrarValoresNormalesButton= e => {
+      e.preventDefault();
+      deleteNacionalidad(dato).then(response => {
+          console.log('Se eliminó el dato con éxito ', response);
+          window.localStorage.setItem("token_seguridad", response.data.token);
+          handleClose();
+      })
+
+      console.log("Datos del usuario: ", data)
   }
 
-  componentDidMount(){
-    this.consultarNacionalidad();  
-  }
+    const [open, setOpen] = React.useState(false);
 
-  consultarNacionalidad= async () =>{
-    const url = `https://localhost:44342/api/Nacionalidad`;
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-    const respuesta = await fetch(url);
-    const nac = await respuesta.json();
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-    console.log(nac);
-    
-    this.setState({
-      nac: nac
-    });
-  }
-  render(){  
   return(
 
     <Container component="main" maxWidth="lg" justify = "center">
@@ -88,7 +113,7 @@ class ListarNacionalidades extends Component {
                       </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.state.nac.map((id) => (
+                    {data.valor.map((id) => (
                       <TableRow key={id.idNacionalidad}>
 
                          
@@ -103,7 +128,7 @@ class ListarNacionalidades extends Component {
                             <EditIcon />
                           </IconButton>
 
-                          <IconButton aria-label="delete" color="error">
+                          <IconButton aria-label="delete" onClick={handleClickOpen} onClickCapture={dato = id.idNacionalidad} color="error">
                             <DeleteIcon />
                           </IconButton>
 
@@ -120,9 +145,37 @@ class ListarNacionalidades extends Component {
           </Card>
       
       </div>
+
+      <div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+              <DialogTitle style={{marginTop: '20px'}} id="alert-dialog-title">
+              {"¿Estás seguro que deseas eliminar este registro?"}
+              </DialogTitle>
+
+              <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                      Si estás decidido en eliminarlo recuerda que luego no podrás volver a recuperar estos
+                      datos.
+                  </DialogContentText>
+              </DialogContent>
+
+              <DialogActions style={{marginBottom: '10px'}}>
+                  <Button variant="contained" onClick={borrarValoresNormalesButton} autoFocus>
+                      De acuerdo
+                  </Button>
+                  <Button variant="contained" color="error" size="sm" onClick={handleClose}>Desacuerdo</Button>
+              </DialogActions>
+
+          </Dialog>
+      </div>
     </Container>
   )
-  }
+  
 }
 
 export default ListarNacionalidades;

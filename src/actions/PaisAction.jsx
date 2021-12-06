@@ -15,3 +15,12 @@ export const registrarPais = pais => {
         })
     })
 }
+
+
+export const deletePais = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Pais/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

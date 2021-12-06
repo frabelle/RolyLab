@@ -11,12 +11,14 @@ import {
   } from '@mui/material';
 import { obtenerExamen } from '../../actions/ExamenAction';
 import { obtenerSexos } from '../../actions/SexoAction';
+import { registrarValoresNormales } from '../../actions/ValoresNormales';
 
 const RegistrarValnormales = () =>{
 
     const [data, setData] = useState({
         sexo: [],
         examen: [],
+        valor: []
     })
 
     useEffect(() => {
@@ -40,6 +42,25 @@ const RegistrarValnormales = () =>{
         })
     }
 
+    const ingresarValores = e =>{
+        const {name, value} = e.target;
+        setData( anterior => ({
+            ...anterior,
+            [name] : value
+        }))
+    }
+
+    const registrarValoresNormalesButton= e => {
+        e.preventDefault();
+        registrarValoresNormales(data).then(response => {
+            console.log('Se registró la profesión con éxito ', response);
+            window.localStorage.setItem("token_seguridad", response.data.token);
+        })
+
+        console.log("Datos del usuario: ", data)
+    }
+
+
 
     return(
         <Container component="main" maxWidth="lg" justify = "center">
@@ -53,17 +74,19 @@ const RegistrarValnormales = () =>{
                     />
 
                     <Divider />
-
+                    <form style={styles.form}>
                     <CardContent>
-                        <form style={styles.form}>
+                        
                             <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
                                     <TextField
                                         fullWidth
                                         label="Examen"
-                                        name="state"
+                                        name="idExamen"
                                         required
                                         select
+                                        onChange={ingresarValores}
+                                        value = {data.valor.idExamen}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -87,9 +110,11 @@ const RegistrarValnormales = () =>{
                                     <TextField
                                         fullWidth
                                         label="Sexo"
-                                        name="state"
+                                        name="idSexo"
                                         required
                                         select
+                                        onChange={ingresarValores}
+                                        value = {data.valor.idSexo}
                                         SelectProps={{ native: true }}
                                         variant="outlined"
                                         >
@@ -110,15 +135,17 @@ const RegistrarValnormales = () =>{
 
                                
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="rango" variant="outlined" fullWidth label="Rango bajo" />
+                                    <TextField name="rangoBajo" onChange={ingresarValores}
+                                        value = {data.valor.rangoBajo} variant="outlined" fullWidth label="Rango bajo" />
                                 </Grid>
                                 
                                 <Grid item xs={12} md={6}>
-                                    <TextField name="rango" variant="outlined" fullWidth label="Rango alto" />
+                                    <TextField name="rangoAlto" onChange={ingresarValores}
+                                        value = {data.valor.rangoAlto}  variant="outlined" fullWidth label="Rango alto" />
                                 </Grid>
 
                             </Grid>
-                        </form>
+                        
                     </CardContent>
 
                     <Divider />
@@ -131,12 +158,14 @@ const RegistrarValnormales = () =>{
                     }}
                     >
                         <Grid item xs={12} md={2}>
-                            <Button type="submit" fullWidth variant="contained" color="primary">
+                            <Button type="submit" onClick={registrarValoresNormalesButton} fullWidth variant="contained" color="primary">
                                 Guardar cambios
                             </Button>
                         </Grid>
 
                     </Box>
+
+                    </form>
                 </Card>
            
             </div>

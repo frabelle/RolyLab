@@ -14,3 +14,11 @@ export const obtenerProfesiones= () => {
         })
     })
 }
+
+export const deleteProfesion = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Profesion/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

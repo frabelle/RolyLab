@@ -15,3 +15,12 @@ export const registrarDepartamento = dep => {
         })
     })
 }
+
+
+export const deleteDepartamento = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Departamento/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

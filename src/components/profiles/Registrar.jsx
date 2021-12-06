@@ -12,6 +12,7 @@ import {
   import {registrarPerfil} from '../../actions/PerfilAction'
 
 
+
 const RegistrarPerfil = () =>{
 
     const [perfil, setPerfil] = useState({
@@ -82,10 +83,8 @@ const RegistrarPerfil = () =>{
                 </Card>
            
             </div>
+
         </Container>
-
-      
-
     )
 }
 

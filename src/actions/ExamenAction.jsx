@@ -15,3 +15,11 @@ export const registrarExamen = exam => {
         })
     })
 }
+
+export const deleteExamen= (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Examen/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

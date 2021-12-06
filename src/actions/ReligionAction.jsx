@@ -15,3 +15,11 @@ export const obtenerReligion = () => {
         })
     })
 }
+
+export const deleteReligion = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Religion/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

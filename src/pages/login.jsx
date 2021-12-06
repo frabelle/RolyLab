@@ -25,7 +25,7 @@ const Login = () => {
           justifyContent: 'center',
           flexGrow: 1,
           minHeight: '100%',
-          margin: '30px',
+          margin: '45px',
         }}
       >
         <Container maxWidth="sm">

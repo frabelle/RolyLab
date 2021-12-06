@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Index from '../pages/index'
 
-import Login from '../pages/index'
+import Login from '../pages/login'
 
 import RegistrarPaciente from '../components/paciente/Registrar'
 import RegistrarDoctores from '../components/medicos/Registrar'
@@ -45,7 +45,7 @@ function ResponsiveDrawer() {
       
       <DashboardNavbar/>
 
-      <Router>
+      
           <Sidebar position="static"/>
 
         <Box
@@ -57,7 +57,6 @@ function ResponsiveDrawer() {
 
           <Switch>
                 <Route exact path="/pages/index" element={<Index/>}></Route>
-                <Route exact path="/pages/index" element={<Login/>}></Route>
 
                 <Route exact path="/paciente/Registrar" element={<RegistrarPaciente/>}></Route>
                 <Route exact path="/medicos/Registrar" element={<RegistrarDoctores/>}></Route>
@@ -87,7 +86,7 @@ function ResponsiveDrawer() {
                 
               </Switch> 
         </Box>
-      </Router>
+      
       
     </Box>
   );

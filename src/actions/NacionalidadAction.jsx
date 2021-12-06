@@ -15,3 +15,11 @@ export const registrarNacionalidad = nacionalidad => {
         })
     })
 }
+
+export const deleteNacionalidad = (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Nacionalidad/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

@@ -23,3 +23,11 @@ export const loginUsuario = (usuario) => {
         })
     })
 }
+
+export const deleteUsuario = (usuario) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Usuario/', usuario).then(response => {
+            resolve(response);
+        })
+    })
+}

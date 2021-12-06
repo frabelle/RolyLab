@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import styles from '../tools/Styles';
 import { styled } from '@mui/material/styles';
 import {
@@ -21,6 +21,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Bannerv from '../../images/valnormal.png';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { deleteValores, obtenerValoresNormales } from '../../actions/ValoresNormales';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,30 +39,49 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-class ListarValoresnormales extends Component {
+const ListarValoresNormales = () => {
 
-  state = {
-    exams: []
+  const [data, setData] = useState({
+    valor: []
+  })
 
+  var dato;
+
+  useEffect(() => {
+      consultarExamenes();   
+  }, []);
+
+    const consultarExamenes = () =>{
+
+        obtenerValoresNormales().then((response) => {
+            setData((antes) =>({
+                ...antes, 
+                valor: response.data
+            }));
+        }) 
+    }
+
+    const borrarValoresNormalesButton= e => {
+      e.preventDefault();
+      deleteValores(dato).then(response => {
+          console.log('Se eliminó el dato con éxito ', response);
+          window.localStorage.setItem("token_seguridad", response.data.token);
+          handleClose();
+      })
+
+      console.log("Datos del usuario: ", data)
   }
 
-  componentDidMount(){
-    this.consultarValoresnormales();  
-  }
+    const [open, setOpen] = React.useState(false);
 
-  consultarValoresnormales= async () =>{
-    const url = `https://localhost:44342/api/`;
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-    const respuesta = await fetch(url);
-    const exams = await respuesta.json();
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-    console.log(exams);
-    
-    this.setState({
-      exams: exams
-    });
-  }
-  render(){  
   return(
 
     <Container component="main" maxWidth="lg" justify = "center">
@@ -91,23 +117,23 @@ class ListarValoresnormales extends Component {
                       </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.state.exams.map((exam) => (
-                      <TableRow key={exam.IdValoresNormales}>
+                    {data.valor.map((exam) => (
+                      <TableRow key={exam.idValoresNormales}>
 
                         <TableCell component="th" scope="row">
-                          {exam.IdExamen}
+                          {exam.idExamen}
                         </TableCell>
                          
                         <TableCell component="th" scope="row">
-                          {exam.IdSexo}
+                          {exam.idSexo}
                         </TableCell>
 
                         <TableCell component="th" scope="row">
-                          {exam.RangoBajo}
+                          {exam.rangoBajo}
                         </TableCell>
 
                         <TableCell component="th" scope="row">
-                          {exam.RangoAlto}
+                          {exam.rangoAlto}
                         </TableCell>
 
 
@@ -117,7 +143,7 @@ class ListarValoresnormales extends Component {
                             <EditIcon />
                           </IconButton>
 
-                          <IconButton aria-label="delete" color="error">
+                          <IconButton aria-label="delete" onClick={handleClickOpen} onClickCapture={dato = exam.idValoresNormales} color="error">
                             <DeleteIcon />
                           </IconButton>
 
@@ -134,9 +160,36 @@ class ListarValoresnormales extends Component {
           </Card>
       
       </div>
+
+      <div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+              <DialogTitle style={{marginTop: '20px'}} id="alert-dialog-title">
+              {"¿Estás seguro que deseas eliminar este registro?"}
+              </DialogTitle>
+
+              <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                      Si estás decidido en eliminarlo recuerda que luego no podrás volver a recuperar estos
+                      datos.
+                  </DialogContentText>
+              </DialogContent>
+
+              <DialogActions style={{marginBottom: '10px'}}>
+                  <Button variant="contained" onClick={borrarValoresNormalesButton} autoFocus>
+                      De acuerdo
+                  </Button>
+                  <Button variant="contained" color="error" size="sm" onClick={handleClose}>Desacuerdo</Button>
+              </DialogActions>
+
+          </Dialog>
+      </div>
     </Container>
   )
-  }
 }
 
-export default ListarValoresnormales;
+export default ListarValoresNormales;

@@ -15,3 +15,11 @@ export const obtenerPerfiles= () => {
         })
     })
 }
+
+export const deletePerfil= (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Perfil/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

@@ -12,6 +12,7 @@ import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { BrowserRouter as Router, Route, Routes as Switch, Link } from 'react-router-dom';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -96,11 +97,14 @@ export const DashboardNavbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Página principal</Typography>
+              </MenuItem>
+
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Cerrar sesión</Typography>
                 </MenuItem>
-              ))}
+
             </Menu>
           </Box>
         </Toolbar>

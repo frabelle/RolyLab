@@ -18,6 +18,7 @@ import { obtenerNacionalidad } from '../../actions/NacionalidadAction';
 import { obtenerDepartamento } from '../../actions/DepartamentoAction';
 import { obtenerPais } from '../../actions/PaisAction';
 import { registrarPaciente } from '../../actions/PacienteAction';
+import { RestorePageRounded } from '@mui/icons-material';
 
 const RegistrarPaciente = () =>{
 
@@ -26,7 +27,7 @@ const RegistrarPaciente = () =>{
         sexo: [],
         tiposangre: [],
         profesiones: [],
-        religion: [],
+        religion2: [],
         nacionalidad: [],
         departamento: [],
         pais: [],
@@ -88,7 +89,7 @@ const RegistrarPaciente = () =>{
         obtenerReligion().then((response) => {
             setData((antes) => ({
                 ...antes,
-                religion: response.data
+                religion2: response.data
             }))
         })
 
@@ -317,11 +318,13 @@ const RegistrarPaciente = () =>{
                                         >
 
                                         <option value="0">Seleccione...</option>
-                                        {data.religion.map((id) => {
+
+                                        {data.religion2.map((id) => {
                                             return (
                                                 <option
                                                     key={id.idReigion}
-                                                    value={id.idReigion}>
+                                                    value={id.idReigion} text="buenas">
+
                                                     {id.descripcion}
                                                 </option>   
                                             );
@@ -471,10 +474,10 @@ const RegistrarPaciente = () =>{
                                     <TextField
                                         fullWidth
                                         label="Embarazada"
-                                        name="embarazada"
+                                        name="emabrazada"
                                         required
                                         select
-                                        value={data.paciente.embarazada} 
+                                        value={data.paciente.emabrazada} 
                                         onChange={ingresarValores}
                                         SelectProps={{ native: true }}
                                         variant="outlined"

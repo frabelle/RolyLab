@@ -7,3 +7,19 @@ export const registrarMedico = med => {
         })
     })
 }
+
+export const obtenerMedico = () => {
+    return new Promise((resolve, reject) => {
+        HttpClient.get('/Medico').then(response => {
+            resolve(response);
+        })
+    })
+}
+
+export const deleteMedico= (val) => {
+    return new Promise((resolve, reject) => {
+        HttpClient.delete('/Medico/{'+ val+'}').then(response => {
+            resolve(response);
+        })
+    })
+}

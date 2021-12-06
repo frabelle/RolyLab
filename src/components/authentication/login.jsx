@@ -77,10 +77,9 @@ const Login = () => {
                           disabled={formik.isSubmitting}
                           fullWidth
                           size="large"
-                          type="submit"
                           variant="contained"
                       >
-                          Iniciar sesión
+                         <Link to="../../pages/menu" style={{ textDecoration: 'none', color: '#ffffff' }}>Iniciar sesión</Link>
                       </Button>
                     </Box>
 
@@ -92,7 +91,7 @@ const Login = () => {
                     ¿No tienes una cuenta?
                     {' '}
                         <Link
-                        to="/register"
+                        to="../../pages/register"
                         variant="subtitle2"
                         underline="hover"
                         sx={{
